@@ -1,0 +1,66 @@
+[
+  {
+    "filters": {},
+    "total_records": 430664,
+    "company_count": 267296,
+    "job_count": 169540,
+    "salary_valid_count": 421212,
+    "salary_median": 7.5,
+    "quantile_method": "linear"
+  },
+  {
+    "filters": {
+      "city": [
+        "F047"
+      ]
+    },
+    "total_records": 25780,
+    "company_count": 18970,
+    "job_count": 13947,
+    "salary_valid_count": 24898,
+    "salary_median": 11.0,
+    "quantile_method": "linear"
+  },
+  {
+    "filters": {
+      "city": [
+        "F047"
+      ],
+      "education": [
+        "GI"
+      ]
+    },
+    "total_records": 6324,
+    "company_count": 5529,
+    "job_count": 3699,
+    "salary_valid_count": 6283,
+    "salary_median": 9.5,
+    "quantile_method": "linear"
+  },
+  {
+    "filters": {
+      "job_title": [
+        "bfbc45b05c5a4425210cd2cb3d84ae09GC"
+      ]
+    },
+    "total_records": 3358,
+    "company_count": 3327,
+    "job_count": 1,
+    "salary_valid_count": 3329,
+    "salary_median": 7.5,
+    "quantile_method": "linear"
+  },
+  {
+    "filters": {
+      "city": [
+        "__not_a_city__"
+      ]
+    },
+    "total_records": 0,
+    "company_count": 0,
+    "job_count": 0,
+    "salary_valid_count": 0,
+    "salary_median": null,
+    "quantile_method": "linear"
+  }
+]

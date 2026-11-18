@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Clean record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "job_title",
+    "city",
+    "experience",
+    "education",
+    "company",
+    "company_type",
+    "salary_raw",
+    "record_id",
+    "source_row",
+    "salary_unit",
+    "pay_months",
+    "salary_status",
+    "is_extra_duplicate",
+    "salary_lower",
+    "salary_upper",
+    "salary_mid"
+  ],
+  "properties": {
+    "job_title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "city": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "experience": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "education": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "company": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "company_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "salary_raw": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_row": {
+      "type": "integer",
+      "minimum": 2
+    },
+    "salary_unit": {
+      "enum": [
+        "K",
+        "other",
+        null
+      ]
+    },
+    "pay_months": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "salary_status": {
+      "enum": [
+        "valid_range",
+        "missing",
+        "unparsed",
+        "invalid_range",
+        "unsupported_unit",
+        "one_sided"
+      ]
+    },
+    "is_extra_duplicate": {
+      "type": "boolean"
+    },
+    "salary_lower": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "salary_upper": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "salary_mid": {
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  }
+}

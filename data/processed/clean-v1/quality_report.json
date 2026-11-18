@@ -1,0 +1,126 @@
+{
+  "raw_count": 430664,
+  "output_count": 430664,
+  "extra_duplicate_count": 53,
+  "salary_status_counts": {
+    "valid_range": 421212,
+    "unsupported_unit": 9438,
+    "unparsed": 13,
+    "one_sided": 1
+  },
+  "valid_salary_fraction": 0.9780524956810878,
+  "columns": {
+    "job_title": {
+      "distinct": 169540,
+      "blank": 0,
+      "top10": {
+        "bfbc45b05c5a4425210cd2cb3d84ae09GC": 3358,
+        "c9a30a5443d04270fb0f49d437c3376bAy": 2633,
+        "9e7afc7cdb61931eb7d2cc8398b80ecfSQ": 2036,
+        "6be068c4e74275ca8ed9975805e2f763Em": 2035,
+        "2006631955b0aa1d8a3bc1edc55e0754sn": 1874,
+        "71f952e353628d7e2f40d40038b09ac2Tn": 1847,
+        "e5ebf2752a03d6729cb633770e4eddd7Hd": 1724,
+        "39a3d2b8857c48c2443faeacf50ae574Xo": 1572,
+        "534952ab1cf024773caddc874099da11qn": 1293,
+        "09b8073e6d0a727247e9bbcf43f8e75avx": 1176
+      }
+    },
+    "city": {
+      "distinct": 371,
+      "blank": 0,
+      "top10": {
+        "F047": 25780,
+        "P949": 24682,
+        "K115": 24608,
+        "F379": 24523,
+        "Y232": 24378,
+        "B170": 23792,
+        "Y633": 23767,
+        "N806": 22962,
+        "O198": 22958,
+        "S959": 22340
+      }
+    },
+    "salary": {
+      "distinct": 2774,
+      "blank": 0,
+      "top10": {
+        "5-10K": 25139,
+        "10-15K": 22196,
+        "5-6K": 17905,
+        "4-5K": 17239,
+        "3-4K": 17105,
+        "8-13K": 15699,
+        "4-6K": 15330,
+        "5-8K": 14046,
+        "3-5K": 12449,
+        "6-11K": 11167
+      }
+    },
+    "experience": {
+      "distinct": 10,
+      "blank": 0,
+      "top10": {
+        "EdD": 146262,
+        "Eas": 138165,
+        "Eqh": 78077,
+        "EzN": 30153,
+        "EKk": 24162,
+        "Eby": 9944,
+        "EaZ": 3843,
+        "ESu": 56,
+        "EkP": 1,
+        "Emc": 1
+      }
+    },
+    "education": {
+      "distinct": 12,
+      "blank": 0,
+      "top10": {
+        "GI": 136346,
+        "GP": 120848,
+        "Gx": 115120,
+        "Gy": 23989,
+        "Go": 21034,
+        "GZ": 6942,
+        "Gh": 5499,
+        "Gz": 673,
+        "Gw": 177,
+        "GJ": 21
+      }
+    },
+    "company": {
+      "distinct": 267296,
+      "blank": 0,
+      "top10": {
+        "company_907432": 485,
+        "company_390847": 373,
+        "company_648838": 366,
+        "company_678433": 364,
+        "company_802784": 290,
+        "company_639598": 243,
+        "company_239143": 221,
+        "company_623498": 203,
+        "company_387215": 197,
+        "company_096263": 189
+      }
+    },
+    "company_type": {
+      "distinct": 158,
+      "blank": 0,
+      "top10": {
+        "type_BLfSmG": 21579,
+        "type_lOdYUb": 21087,
+        "type_uTAWZv": 19677,
+        "type_qrSFSq": 18785,
+        "type_CbBLwi": 13685,
+        "type_fFlUqG": 13392,
+        "type_yZblEo": 12864,
+        "type_qGLNuz": 12280,
+        "type_YOHpQY": 10930,
+        "type_HfjYoW": 10688
+      }
+    }
+  }
+}

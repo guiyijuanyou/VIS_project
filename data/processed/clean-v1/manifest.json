@@ -1,0 +1,13 @@
+{
+  "data_version": "clean-v1",
+  "schema_version": "1.0",
+  "source_sha256": "d788b7153922659c92742b45e042eb1208c8184cd02bece3a201f50faf244e2b",
+  "output_sha256": "fdb2671affac202f6208a1a8907e53227628a86e3516c78f9745f731b1354380",
+  "source_sheet": "second_data",
+  "raw_count": 430664,
+  "output_count": 430664,
+  "extra_duplicate_count": 53,
+  "duplicate_policy": "keep_all",
+  "salary_basis": "quoted_range_midpoint",
+  "created_at": "2026-11-18T05:04:09.161058+00:00"
+}
