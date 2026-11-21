@@ -1,23 +1,80 @@
+/**
+ * 全局 Design Tokens（全站唯一样式来源）
+ *
+ * 规范依据：UI/UX Design Direction 第三节（色彩）、第七节（排版）、第八节（组件）。
+ * 页面与组件只能引用这里的变量，禁止在页面内自建颜色、圆角、阴影。
+ *
+ * 待补充项（规范未给出具体数值，此处取工程默认值，团队可统一调整）：
+ *   - 间距以 4px 为基数（--space-*）
+ *   - 断点 1200 / 1024（--bp-*），无图标库：侧栏图标使用内联线性 SVG
+ */
 :root {
-  --color-bg: #f6f7fb;
+  /* ===== 色彩：中性灰基底 + 深海军蓝强调 ===== */
+  --color-bg: #f5f6f7;
   --color-surface: #ffffff;
-  --color-border: #e2e6ef;
-  --color-text: #232a38;
-  --color-text-muted: #6b7488;
-  --color-primary: #3b6dd8;
-  --color-primary-soft: #eaf0fd;
-  --color-warning: #b9691f;
-  --color-warning-soft: #fdf2e4;
-  --color-danger: #b3352f;
-  --color-danger-soft: #fdeceb;
-  --color-success: #2f7a5e;
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --color-surface-alt: #eef1f4;
+  --color-text: #202a35;
+  --color-text-secondary: #697586;
+  --color-text-muted: #929ba6;
+  --color-brand: #294c69;
+  --color-brand-strong: #1d354a;
+  --color-brand-soft: #e8edf1;
+  --color-border: #e2e6ea;
+  --color-border-strong: #cfd6dc;
+  --color-positive: #27836a;
+  --color-positive-soft: #e9f2ef;
+  --color-negative: #c45b52;
+  --color-negative-soft: #f7ece9;
+  --color-warning: #c28a3c;
+  --color-warning-soft: #f7f0e4;
+
+  /* ===== 字体 ===== */
+  --font-sans: "Inter", "Microsoft YaHei", "Noto Sans SC", "PingFang SC", Arial, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --line-tight: 1.35;
+  --line-normal: 1.55;
+
+  /* ===== 间距 ===== */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
-  --space-5: 24px;
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
-  --shadow-card: 0 1px 2px rgba(28, 39, 63, 0.06), 0 4px 16px rgba(28, 39, 63, 0.05);
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* ===== 边框与圆角 ===== */
+  --border-width: 1px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* ===== 阴影：仅用于浮层（tooltip / 下拉），面板一律用边框 ===== */
+  --shadow-overlay: 0 4px 16px rgba(32, 42, 53, 0.12);
+
+  /* ===== 尺寸与布局 ===== */
+  --sidebar-width: 208px;
+  --rail-width: 264px;
+  --content-max: 1440px;
+  --control-height: 28px;
+  --row-height: 34px;
+  --topbar-height: 52px;
+
+  /* ===== 断点（媒体查询无法使用 CSS 变量，数值在此登记供统一引用） ===== */
+  --bp-lg: 1200px;
+  --bp-md: 1024px;
+
+  /* ===== 过渡：只用于状态反馈，不做装饰性动画 ===== */
+  --transition-fast: 120ms ease;
 }

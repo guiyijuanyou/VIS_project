@@ -5,6 +5,10 @@ import { useAsyncQuery } from '@/composables/useAsyncQuery'
 import { useFilterStore } from '@/stores/filter'
 import { formatCount, salaryStatusLabel } from '@/utils/format'
 import StateBlock from './StateBlock.vue'
+import DataTable from './DataTable.vue'
+import type { DataTableColumn } from './table-types'
+import Pagination from './Pagination.vue'
+import Tag from './Tag.vue'
 
 /** C05：分页明细与来源证据；解析状态原样展示，不把不可用报价显示成 0 */
 const store = useFilterStore()
@@ -22,68 +26,62 @@ const total = computed(() => query.data.value?.total ?? 0)
 const maxPage = computed(() => Math.max(1, Math.ceil(total.value / pageSize)))
 const rows = computed(() => query.data.value?.items ?? [])
 
+const columns: DataTableColumn[] = [
+  { key: 'sourceRow', label: '来源行号', align: 'right', width: '76px' },
+  { key: 'recordId', label: 'record_id', width: '112px' },
+  { key: 'jobTitle', label: 'job_title', width: '84px' },
+  { key: 'city', label: 'city', width: '72px' },
+  { key: 'companyType', label: 'company_type', width: '104px' },
+  { key: 'education', label: 'education', width: '80px' },
+  { key: 'experience', label: 'experience', width: '84px' },
+  { key: 'salary', label: 'salary（原串）', width: '112px' },
+  { key: 'mid', label: '生效区间', width: '156px' },
+  { key: 'status', label: '解析状态', width: '96px' },
+  { key: 'duplicate', label: '重复', width: '72px' },
+]
+
 function go(next: number) {
-  if (next < 1 || next > maxPage.value) return
   page.value = next
   void query.run()
 }
 </script>
 
 <template>
-  <div class="record-table">
-    <div class="record-table__toolbar">
-      <span class="muted">共 {{ formatCount(total) }} 条 · 每页 {{ pageSize }} 条 · 第 {{ page }} / {{ maxPage }} 页</span>
-      <div class="record-table__pager">
-        <button class="btn" type="button" :disabled="page <= 1" @click="go(page - 1)">上一页</button>
-        <button class="btn" type="button" :disabled="page >= maxPage" @click="go(page + 1)">下一页</button>
-      </div>
-    </div>
+  <div>
+    <StateBlock :status="query.status.value" :error="query.error.value" :empty="rows.length === 0" empty-text="当前条件下没有明细记录，请放宽筛选条件或重置。">
+      <DataTable :columns="columns" :rows="rows" :row-key="(row) => row.recordId">
+        <template #cell="{ row, column }">
+          <template v-if="column.key === 'sourceRow'">{{ row.sourceRow }}</template>
+          <template v-else-if="column.key === 'recordId'"><span class="mono">{{ row.recordId }}</span></template>
+          <template v-else-if="column.key === 'jobTitle'"><span class="mono">{{ row.jobTitle }}</span></template>
+          <template v-else-if="column.key === 'city'"><span class="mono">{{ row.city }}</span></template>
+          <template v-else-if="column.key === 'companyType'"><span class="mono">{{ row.companyType }}</span></template>
+          <template v-else-if="column.key === 'education'"><span class="mono">{{ row.education }}</span></template>
+          <template v-else-if="column.key === 'experience'"><span class="mono">{{ row.experience }}</span></template>
+          <template v-else-if="column.key === 'salary'"><span class="mono">{{ row.salary }}</span></template>
+          <template v-else-if="column.key === 'mid'">
+            <span v-if="row.salaryMid === null" class="text-muted">—（{{ salaryStatusLabel(row.salaryStatus) }}）</span>
+            <span v-else class="num">{{ row.salaryLower }}～{{ row.salaryUpper }}（中点 {{ row.salaryMid }}）</span>
+          </template>
+          <template v-else-if="column.key === 'status'">
+            <Tag :tone="row.salaryStatus === 'ok' ? 'positive' : row.salaryStatus === 'invalid' ? 'warning' : 'negative'">
+              {{ salaryStatusLabel(row.salaryStatus) }}
+            </Tag>
+          </template>
+          <template v-else>
+            <Tag v-if="row.isExtraDuplicate" tone="neutral">额外重复</Tag>
+            <span v-else class="text-muted">—</span>
+          </template>
+        </template>
+      </DataTable>
 
-    <StateBlock :status="query.status.value" :error="query.error.value" :empty="rows.length === 0" empty-text="当前条件下没有明细记录。">
-      <div class="record-table__scroll">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>来源行号</th>
-              <th>record_id</th>
-              <th>job_title</th>
-              <th>city</th>
-              <th>company_type</th>
-              <th>education</th>
-              <th>experience</th>
-              <th>salary（原串）</th>
-              <th>生效区间</th>
-              <th>解析状态</th>
-              <th>重复</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="row in rows" :key="row.recordId">
-              <td>{{ row.sourceRow }}</td>
-              <td class="mono">{{ row.recordId }}</td>
-              <td class="mono">{{ row.jobTitle }}</td>
-              <td class="mono">{{ row.city }}</td>
-              <td class="mono">{{ row.companyType }}</td>
-              <td class="mono">{{ row.education }}</td>
-              <td class="mono">{{ row.experience }}</td>
-              <td class="mono">{{ row.salary }}</td>
-              <td class="mono">
-                {{ row.salaryMid === null ? '—（' + salaryStatusLabel(row.salaryStatus) + '）' : `${row.salaryLower}～${row.salaryUpper}（中点 ${row.salaryMid}）` }}
-              </td>
-              <td>{{ salaryStatusLabel(row.salaryStatus) }}</td>
-              <td>{{ row.isExtraDuplicate ? '额外重复' : '' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <Pagination :page="page" :page-size="pageSize" :total="total" :max-page="maxPage" @change="go" class="record__pagination" />
     </StateBlock>
   </div>
 </template>
 
 <style scoped>
-.record-table__toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-2); font-size: 12px; }
-
-.record-table__pager { display: flex; gap: var(--space-2); }
-
-.record-table__scroll { overflow-x: auto; }
+.record__pagination {
+  margin-top: var(--space-3);
+}
 </style>

@@ -4,6 +4,10 @@ import { api } from '@/api/endpoints'
 import { useAsyncQuery } from '@/composables/useAsyncQuery'
 import { useFilterStore } from '@/stores/filter'
 import { formatCount } from '@/utils/format'
+import PageHeader from '@/components/PageHeader.vue'
+import ChartContainer from '@/components/ChartContainer.vue'
+import SearchInput from '@/components/SearchInput.vue'
+import Tag from '@/components/Tag.vue'
 import JobProfile from '@/components/JobProfile.vue'
 import SalaryBox from '@/components/SalaryBox.vue'
 import DistanceMatrix from '@/components/DistanceMatrix.vue'
@@ -57,40 +61,45 @@ function selectJob(code: string) {
 </script>
 
 <template>
-  <section class="card">
-    <div class="card__header">
-      <h2 class="card__title">选择职位</h2>
-      <span class="card__hint">职位是代码（job_title 类别），不是招聘记录 ID；不做技能或适岗推荐。</span>
+  <PageHeader
+    title="职位画像与差异度"
+    subtitle="比较职位在行业、学历、经验结构与报价上的差异，并解释差异来源。职位为 job_title 代码，不是招聘记录 ID。"
+  >
+    <template #actions>
+      <Tag :tone="store.compareJobs.length >= 2 ? 'brand' : 'neutral'">比较对象 {{ store.compareJobs.length }} / 4</Tag>
+    </template>
+  </PageHeader>
+
+  <ChartContainer title="选择职位" hint="默认展示记录量较高的职位，其余可搜索；再次点击当前职位可移出比较。">
+    <template #meta>
+      <span v-if="optionError" class="picker__error">{{ optionError }}</span>
+    </template>
+    <div class="picker">
+      <SearchInput
+        v-model="keyword"
+        placeholder="输入职位代码关键字后回车"
+        button-label="搜索"
+        width="320px"
+        @submit="loadOptions"
+      />
+      <span class="picker__scale">已选：{{ store.compareJobs.join('、') || '未选择' }}</span>
     </div>
-    <div class="job-picker">
-      <input v-model="keyword" class="job-picker__input" type="search" placeholder="输入职位代码关键字后回车" @keyup.enter="loadOptions" />
-      <button class="btn" type="button" @click="loadOptions">搜索</button>
-      <span v-if="optionError" class="muted">{{ optionError }}</span>
-    </div>
-    <div class="job-picker__list">
-      <button
+    <div class="picker__list">
+      <Tag
         v-for="option in options"
         :key="option.code"
-        type="button"
-        class="chip"
-        :class="{ 'chip--active': store.focusJob === option.code }"
+        :tone="store.focusJob === option.code ? 'brand' : 'neutral'"
         :title="`${option.code}：${formatCount(option.recordCount)} 条`"
-        @click="selectJob(option.code)"
       >
-        {{ option.code }} · {{ formatCount(option.recordCount) }}
-      </button>
-      <span v-if="options.length === 0" class="muted">没有匹配的职位代码。</span>
+        <button class="picker__option" type="button" @click="selectJob(option.code)">
+          {{ option.code }} · {{ formatCount(option.recordCount) }}
+        </button>
+      </Tag>
+      <span v-if="options.length === 0" class="picker__empty">没有匹配的职位代码。</span>
     </div>
-    <p class="card__hint">
-      已选比较对象（{{ store.compareJobs.length }}/4）：{{ store.compareJobs.join('、') || '未选择' }}。默认展示记录量较高的职位，其余可搜索。
-    </p>
-  </section>
+  </ChartContainer>
 
-  <section class="card">
-    <div class="card__header">
-      <h2 class="card__title">职位画像</h2>
-      <span class="card__hint">行业、学历、经验三类占比同一分母，并显示样本数。</span>
-    </div>
+  <ChartContainer title="职位画像" hint="行业、学历、经验三类占比同一分母，并显示样本数。">
     <StateBlock
       :status="profileQuery.status.value"
       :error="profileQuery.error.value"
@@ -99,23 +108,15 @@ function selectJob(code: string) {
     >
       <JobProfile v-if="profile" :profile="profile" />
     </StateBlock>
-  </section>
+  </ChartContainer>
 
-  <section class="card">
-    <div class="card__header">
-      <h2 class="card__title">薪资分布</h2>
-      <span class="card__hint">无有效报价时显示状态，不显示 0。</span>
-    </div>
+  <ChartContainer title="薪资分布" hint="无有效报价时显示状态，不显示 0。">
     <StateBlock :status="profileQuery.status.value" :error="profileQuery.error.value" :empty="!profile">
       <SalaryBox v-if="profile" :profile="profile" />
     </StateBlock>
-  </section>
+  </ChartContainer>
 
-  <section class="card">
-    <div class="card__header">
-      <h2 class="card__title">职位差异度矩阵</h2>
-      <span class="card__hint">至少选择 2 个职位；点击单元格查看各维贡献。</span>
-    </div>
+  <ChartContainer title="职位差异度矩阵" hint="至少选择 2 个职位；点击单元格查看各维贡献与公式说明。">
     <StateBlock
       :status="distanceQuery.status.value"
       :error="distanceQuery.error.value"
@@ -124,21 +125,48 @@ function selectJob(code: string) {
     >
       <DistanceMatrix v-if="distanceData" :data="distanceData" />
     </StateBlock>
-  </section>
+  </ChartContainer>
 </template>
 
 <style scoped>
-.job-picker { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); }
-
-.job-picker__input {
-  flex: 1;
-  min-width: 160px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 6px 10px;
-  font-family: inherit;
-  font-size: 13px;
+.picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
 }
 
-.job-picker__list { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: var(--space-2); }
+.picker__scale {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.picker__error {
+  font-size: var(--text-xs);
+  color: var(--color-negative);
+}
+
+.picker__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.picker__option {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.picker__empty {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
 </style>

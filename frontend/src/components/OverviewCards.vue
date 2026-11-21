@@ -1,55 +1,60 @@
 <script setup lang="ts">
 import type { OverviewResponse } from '@/api/types'
 import { formatCount, formatPercent } from '@/utils/format'
+import MetricCard from './MetricCard.vue'
 
-/** 总览指标：发布量口径与有效薪资口径必须分开显示 */
+/** 总览指标：发布量口径与有效薪资口径分开呈现，单位与统计口径写在次级层 */
 const props = defineProps<{ overview: OverviewResponse }>()
 
-const cards = [
-  { label: '记录数（发布量）', get: () => formatCount(props.overview.recordCount) },
-  { label: '企业数', get: () => formatCount(props.overview.companyCount) },
-  { label: '地区数', get: () => formatCount(props.overview.regionCount) },
-  { label: '职位数', get: () => formatCount(props.overview.jobCount) },
-  { label: '有效报价样本', get: () => formatCount(props.overview.salaryValidCount) },
-  { label: '有效报价率', get: () => formatPercent(props.overview.salaryValidRate) },
-  {
-    label: '报价中点中位数',
-    get: () =>
-      props.overview.salaryMidMedian === null
-        ? '薪资不可用'
-        : `${props.overview.salaryMidMedian} ${props.overview.salaryUnit}`,
-  },
-]
+interface MetricDatum {
+  label: string
+  value: string
+  unit?: string
+  caption?: string
+  tone?: 'default' | 'positive' | 'negative' | 'warning'
+}
+
+function cards(): MetricDatum[] {
+  const overview = props.overview
+  return [
+    { label: '记录数（发布量）', value: formatCount(overview.recordCount), caption: '样本内招聘记录条数' },
+    { label: '企业数', value: formatCount(overview.companyCount), caption: '去重企业代码数' },
+    { label: '地区数', value: formatCount(overview.regionCount), caption: '覆盖地区代码数' },
+    { label: '职位数', value: formatCount(overview.jobCount), caption: '覆盖职位代码数' },
+    {
+      label: '有效报价样本',
+      value: formatCount(overview.salaryValidCount),
+      caption: `占记录数 ${formatPercent(overview.salaryValidRate)}`,
+    },
+    { label: '有效报价率', value: formatPercent(overview.salaryValidRate), caption: '有效样本 / 记录数' },
+    {
+      label: '报价中点中位数',
+      value: overview.salaryMidMedian === null ? '不可用' : String(overview.salaryMidMedian),
+      caption: overview.salaryMidMedian === null ? '当前条件无有效报价' : overview.salaryUnit,
+      tone: overview.salaryMidMedian === null ? 'warning' : 'default',
+    },
+  ]
+}
 </script>
 
 <template>
-  <div class="overview-cards">
-    <div v-for="card in cards" :key="card.label" class="overview-cards__item">
-      <span class="overview-cards__label">{{ card.label }}</span>
-      <span class="overview-cards__value">{{ card.get() }}</span>
-    </div>
+  <div class="overview">
+    <MetricCard
+      v-for="card in cards()"
+      :key="card.label"
+      :label="card.label"
+      :value="card.value"
+      :unit="card.unit"
+      :caption="card.caption"
+      :tone="card.tone"
+    />
   </div>
 </template>
 
 <style scoped>
-.overview-cards {
+.overview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
   gap: var(--space-2);
 }
-
-.overview-cards__item {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
-  box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.overview-cards__label { font-size: 11.5px; color: var(--color-text-muted); }
-
-.overview-cards__value { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
 </style>

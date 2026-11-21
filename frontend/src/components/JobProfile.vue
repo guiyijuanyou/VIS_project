@@ -2,6 +2,10 @@
 import { computed, ref } from 'vue'
 import type { JobProfileResponse } from '@/api/types'
 import { formatCount, formatNumber, formatPercent } from '@/utils/format'
+import MetricCard from './MetricCard.vue'
+import Tabs from './Tabs.vue'
+import Tooltip from './Tooltip.vue'
+import EmptyState from './EmptyState.vue'
 
 /**
  * C04：职位画像。三个维度共享同一分母（该职位在当前筛选下的记录数），
@@ -9,108 +13,149 @@ import { formatCount, formatNumber, formatPercent } from '@/utils/format'
  */
 const props = defineProps<{ profile: JobProfileResponse }>()
 
-const dimensionLabels: Record<string, string> = {
-  industry: '行业（company_type）',
-  education: '学历代码',
-  experience: '经验代码',
-}
+const dimensionItems = [
+  { key: 'industry', label: '行业（company_type）' },
+  { key: 'education', label: '学历代码' },
+  { key: 'experience', label: '经验代码' },
+]
 
 const activeDimension = ref<'industry' | 'education' | 'experience'>('industry')
 
 const activeItems = computed(() => props.profile.categories.find((group) => group.dimension === activeDimension.value)?.items ?? [])
 const maxShare = computed(() => activeItems.value.reduce((max, item) => Math.max(max, item.share), 0) || 1)
+
+interface MetricDatum {
+  label: string
+  value: string
+  unit?: string
+  caption?: string
+  tone?: 'default' | 'positive' | 'negative' | 'warning'
+}
+
+const stats = computed<MetricDatum[]>(() => {
+  const profile = props.profile
+  const salary = profile.salary
+  return [
+    { label: '焦点职位', value: profile.job, caption: 'job_title 代码' },
+    { label: '记录数（分母）', value: formatCount(profile.recordCount), caption: '当前条件下该职位记录数' },
+    { label: '企业数', value: formatCount(profile.companyCount), caption: '去重企业代码' },
+    { label: '覆盖地区数', value: formatCount(profile.regionCount), caption: '去重地区代码' },
+    { label: '有效报价样本', value: formatCount(profile.salaryValidCount), caption: 'salary_status = ok' },
+    {
+      label: '报价中点 P50 / P25～P75',
+      value: salary ? `${formatNumber(salary.p50)} / ${formatNumber(salary.p25)}～${formatNumber(salary.p75)}` : '不可用',
+      unit: salary ? salary.unit : undefined,
+      caption: salary ? `有效样本 ${formatCount(salary.sampleCount)}` : '当前条件无有效报价',
+      tone: salary ? 'default' : 'warning',
+    },
+  ]
+})
 </script>
 
 <template>
-  <div class="job-profile">
-    <div class="job-profile__summary">
-      <div class="job-profile__stat">
-        <span class="muted">焦点职位</span>
-        <strong class="mono">{{ profile.job }}</strong>
-      </div>
-      <div class="job-profile__stat">
-        <span class="muted">记录数（分母）</span>
-        <strong>{{ formatCount(profile.recordCount) }}</strong>
-      </div>
-      <div class="job-profile__stat">
-        <span class="muted">企业数</span>
-        <strong>{{ formatCount(profile.companyCount) }}</strong>
-      </div>
-      <div class="job-profile__stat">
-        <span class="muted">覆盖地区数</span>
-        <strong>{{ formatCount(profile.regionCount) }}</strong>
-      </div>
-      <div class="job-profile__stat">
-        <span class="muted">有效报价样本</span>
-        <strong>{{ formatCount(profile.salaryValidCount) }}</strong>
-      </div>
-      <div class="job-profile__stat">
-        <span class="muted">报价中点 P50 / P25～P75</span>
-        <strong>
-          {{ profile.salary ? `${formatNumber(profile.salary.p50)} / ${formatNumber(profile.salary.p25)}～${formatNumber(profile.salary.p75)} ${profile.salary.unit}` : '薪资不可用' }}
-        </strong>
-      </div>
+  <div>
+    <div class="profile__stats">
+      <MetricCard
+        v-for="stat in stats"
+        :key="stat.label"
+        :label="stat.label"
+        :value="stat.value"
+        :unit="stat.unit"
+        :caption="stat.caption"
+        :tone="stat.tone"
+      />
     </div>
 
-    <div class="job-profile__tabs">
-      <button
-        v-for="(label, key) in dimensionLabels"
-        :key="key"
-        type="button"
-        class="chip"
-        :class="{ 'chip--active': activeDimension === key }"
-        @click="activeDimension = key as 'industry' | 'education' | 'experience'"
-      >
-        {{ label }}
-      </button>
-      <span class="card__hint">分母固定为记录数 {{ formatCount(profile.recordCount) }}；同一类别在悬停时显示原代码。</span>
+    <div class="profile__controls">
+      <Tabs :items="dimensionItems" :model-value="activeDimension" @update:model-value="(value) => (activeDimension = value as 'industry' | 'education' | 'experience')" />
+      <span class="profile__scale num">分母：{{ formatCount(profile.recordCount) }} 条记录</span>
     </div>
 
-    <ul v-if="activeItems.length" class="job-profile__bars">
-      <li v-for="item in activeItems" :key="item.code" class="job-profile__row" :title="`${item.label}：${item.count} 条`">
-        <span class="mono job-profile__code">{{ item.label }}</span>
-        <div class="job-profile__bar">
-          <div class="job-profile__fill" :style="{ width: `${(item.share / maxShare) * 100}%` }"></div>
+    <ul v-if="activeItems.length" class="profile__bars">
+      <li v-for="item in activeItems" :key="item.code" class="profile__row">
+        <Tooltip :text="`原代码 ${item.code} · ${formatCount(item.count)} 条`">
+          <span class="profile__code mono">{{ item.label }}</span>
+        </Tooltip>
+        <div class="profile__bar">
+          <div class="profile__fill" :style="{ width: `${(item.share / maxShare) * 100}%` }"></div>
         </div>
-        <span class="job-profile__value">{{ formatPercent(item.share) }}</span>
-        <span class="job-profile__count muted">{{ formatCount(item.count) }} 条</span>
+        <span class="profile__value num">{{ formatPercent(item.share) }}</span>
+        <span class="profile__count num">{{ formatCount(item.count) }} 条</span>
       </li>
     </ul>
-    <p v-else class="empty-hint">该职位在当前条件下没有类别分布数据。</p>
+    <EmptyState v-else title="没有类别分布数据" hint="该职位在当前条件下没有可用的类别记录。" />
   </div>
 </template>
 
 <style scoped>
-.job-profile__summary {
+.profile__stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.profile__controls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
   margin-bottom: var(--space-3);
 }
 
-.job-profile__stat {
-  display: flex;
-  flex-direction: column;
-  background: #fafbfe;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 6px 10px;
-  font-size: 12px;
+.profile__scale {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  padding-bottom: var(--space-2);
 }
 
-.job-profile__tabs { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); }
+.profile__bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 
-.job-profile__bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.profile__row {
+  display: grid;
+  grid-template-columns: 96px minmax(120px, 1fr) 60px 72px;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+}
 
-.job-profile__row { display: grid; grid-template-columns: 84px 1fr 58px 74px; align-items: center; gap: var(--space-2); font-size: 12px; }
+.profile__row:hover {
+  background: var(--color-bg);
+}
 
-.job-profile__code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.profile__code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-secondary);
+}
 
-.job-profile__bar { height: 10px; background: #eef1f7; border-radius: 5px; overflow: hidden; }
+.profile__bar {
+  height: 8px;
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
 
-.job-profile__fill { height: 100%; background: var(--color-primary); }
+.profile__fill {
+  height: 100%;
+  background: var(--color-brand);
+}
 
-.job-profile__value { text-align: right; font-variant-numeric: tabular-nums; }
+.profile__value {
+  text-align: right;
+  color: var(--color-text);
+}
 
-.job-profile__count { text-align: right; font-size: 11.5px; }
+.profile__count {
+  text-align: right;
+  color: var(--color-text-muted);
+}
 </style>
