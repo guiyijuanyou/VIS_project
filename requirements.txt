@@ -1,0 +1,9 @@
+# 占位文件：由人员二（B02）锁定后端 Python 依赖，人员一（A）提依赖需求。
+# 当前仅列出骨架阶段已知的最小集合，版本统一由 B 填写后再锁定。
+# TODO(B02): 取消注释并锁定版本
+# fastapi==
+# uvicorn[standard]==
+# pandas==
+# openpyxl==
+# python-docx==
+# pyarrow==

@@ -1,0 +1,108 @@
+* { box-sizing: border-box; }
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+button {
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 600;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+}
+
+.card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.card__title { font-size: 15px; }
+
+.card__hint { color: var(--color-text-muted); font-size: 12px; }
+
+.chip {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: 999px;
+  padding: 2px 10px;
+  color: var(--color-text-muted);
+  transition: all 0.12s ease;
+}
+
+.chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+.chip--active {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.btn {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  color: var(--color-text);
+}
+
+.btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+.btn--ghost { border-color: transparent; color: var(--color-text-muted); }
+
+.muted { color: var(--color-text-muted); }
+
+.mono { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid var(--color-border);
+  padding: 6px 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table th { color: var(--color-text-muted); font-weight: 600; background: #fafbfe; }
+
+.table tbody tr:hover { background: #f7f9fe; }
+
+.empty-hint {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  padding: var(--space-4) 0;
+  text-align: center;
+}

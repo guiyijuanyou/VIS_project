@@ -1,0 +1,6 @@
+{
+  "_placeholder": "占位：清洗规则由人员一（A02）编写，请勿在前端假设其实现",
+  "version": null,
+  "salary_rules": [],
+  "notes": "TODO(A02): 补充正则、输出字段、单位与异常处理"
+}

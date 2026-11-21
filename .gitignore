@@ -1,0 +1,18 @@
+# 占位文件（由人员二维护，人员三仅提供脚手架所需条目）
+node_modules/
+dist/
+.tmp/
+*.tsbuildinfo
+.venv/
+__pycache__/
+*.pyc
+.vite/
+coverage/
+db/*.sqlite3
+*.log
+.DS_Store
+data/processed/*.parquet
+data/processed/*.csv
+
+# 允许保留的占位标记
+!**/.gitkeep
