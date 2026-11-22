@@ -1,0 +1,2166 @@
+{
+  "components": {
+    "schemas": {
+      "Capabilities": {
+        "description": "固定能力声明：本项目没有这些数据，界面上不能造。",
+        "properties": {
+          "geo": {
+            "default": false,
+            "title": "Geo",
+            "type": "boolean"
+          },
+          "real_names": {
+            "default": false,
+            "title": "Real Names",
+            "type": "boolean"
+          },
+          "skills": {
+            "default": false,
+            "title": "Skills",
+            "type": "boolean"
+          },
+          "time_series": {
+            "default": false,
+            "title": "Time Series",
+            "type": "boolean"
+          }
+        },
+        "title": "Capabilities",
+        "type": "object"
+      },
+      "CodeOption": {
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "label"
+        ],
+        "title": "CodeOption",
+        "type": "object"
+      },
+      "DistanceComponent": {
+        "description": "i<j 的无序对，各维分量让界面能解释“为什么不同”。",
+        "properties": {
+          "education": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Education"
+          },
+          "experience": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Experience"
+          },
+          "industry": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Industry"
+          },
+          "left": {
+            "title": "Left",
+            "type": "string"
+          },
+          "region": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Region"
+          },
+          "right": {
+            "title": "Right",
+            "type": "string"
+          },
+          "salary": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salary"
+          },
+          "total": {
+            "title": "Total",
+            "type": "number"
+          }
+        },
+        "required": [
+          "left",
+          "right",
+          "total"
+        ],
+        "title": "DistanceComponent",
+        "type": "object"
+      },
+      "DistanceMethod": {
+        "properties": {
+          "dimensions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Dimensions",
+            "type": "array"
+          },
+          "min_salary_samples": {
+            "title": "Min Salary Samples",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "reference_scope": {
+            "title": "Reference Scope",
+            "type": "string"
+          },
+          "salary_reference": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Salary Reference",
+            "type": "object"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          },
+          "weights": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Weights",
+            "type": "object"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "dimensions",
+          "weights",
+          "salary_reference",
+          "reference_scope",
+          "min_salary_samples"
+        ],
+        "title": "DistanceMethod",
+        "type": "object"
+      },
+      "Distribution": {
+        "properties": {
+          "denominator": {
+            "minimum": 0.0,
+            "title": "Denominator",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ShareItem"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "denominator",
+          "items"
+        ],
+        "title": "Distribution",
+        "type": "object"
+      },
+      "Envelope_JobDistanceData_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/JobDistanceData"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaBlock"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_version",
+          "meta",
+          "data"
+        ],
+        "title": "Envelope[JobDistanceData]",
+        "type": "object"
+      },
+      "Envelope_JobOptionsData_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/JobOptionsData"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaBlock"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_version",
+          "meta",
+          "data"
+        ],
+        "title": "Envelope[JobOptionsData]",
+        "type": "object"
+      },
+      "Envelope_JobProfileData_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/JobProfileData"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaBlock"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_version",
+          "meta",
+          "data"
+        ],
+        "title": "Envelope[JobProfileData]",
+        "type": "object"
+      },
+      "Envelope_MetaData_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/MetaData"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaBlock"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_version",
+          "meta",
+          "data"
+        ],
+        "title": "Envelope[MetaData]",
+        "type": "object"
+      },
+      "Envelope_OverviewData_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/OverviewData"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaBlock"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_version",
+          "meta",
+          "data"
+        ],
+        "title": "Envelope[OverviewData]",
+        "type": "object"
+      },
+      "Envelope_RecordsData_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RecordsData"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaBlock"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_version",
+          "meta",
+          "data"
+        ],
+        "title": "Envelope[RecordsData]",
+        "type": "object"
+      },
+      "Envelope_RegionsData_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RegionsData"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaBlock"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_version",
+          "meta",
+          "data"
+        ],
+        "title": "Envelope[RegionsData]",
+        "type": "object"
+      },
+      "Envelope_SimilarRegionsData_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SimilarRegionsData"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaBlock"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data_version",
+          "meta",
+          "data"
+        ],
+        "title": "Envelope[SimilarRegionsData]",
+        "type": "object"
+      },
+      "FieldDoc": {
+        "properties": {
+          "data_type": {
+            "title": "Data Type",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "nullable": {
+            "title": "Nullable",
+            "type": "boolean"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "name",
+          "data_type",
+          "nullable",
+          "description"
+        ],
+        "title": "FieldDoc",
+        "type": "object"
+      },
+      "FilterOptions": {
+        "properties": {
+          "city": {
+            "items": {
+              "$ref": "#/components/schemas/CodeOption"
+            },
+            "title": "City",
+            "type": "array"
+          },
+          "company_type": {
+            "items": {
+              "$ref": "#/components/schemas/CodeOption"
+            },
+            "title": "Company Type",
+            "type": "array"
+          },
+          "education": {
+            "items": {
+              "$ref": "#/components/schemas/CodeOption"
+            },
+            "title": "Education",
+            "type": "array"
+          },
+          "experience": {
+            "items": {
+              "$ref": "#/components/schemas/CodeOption"
+            },
+            "title": "Experience",
+            "type": "array"
+          }
+        },
+        "required": [
+          "city",
+          "company_type",
+          "education",
+          "experience"
+        ],
+        "title": "FilterOptions",
+        "type": "object"
+      },
+      "FilterSet": {
+        "description": "规范化后的筛选条件，回填到 meta.filters。",
+        "properties": {
+          "city": {
+            "items": {
+              "type": "string"
+            },
+            "title": "City",
+            "type": "array"
+          },
+          "company_type": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Company Type",
+            "type": "array"
+          },
+          "education": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Education",
+            "type": "array"
+          },
+          "experience": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Experience",
+            "type": "array"
+          },
+          "job_title": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Job Title",
+            "type": "array"
+          },
+          "salary_max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salary Max"
+          },
+          "salary_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salary Min"
+          }
+        },
+        "title": "FilterSet",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthData": {
+        "properties": {
+          "api_version": {
+            "default": "1.0",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "status": {
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "title": "HealthData",
+        "type": "object"
+      },
+      "JobDistanceData": {
+        "properties": {
+          "analysis_version": {
+            "title": "Analysis Version",
+            "type": "string"
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/DistanceComponent"
+            },
+            "title": "Components",
+            "type": "array"
+          },
+          "job_titles": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Job Titles",
+            "type": "array"
+          },
+          "matrix": {
+            "description": "对称矩阵，对角线为 0",
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "title": "Matrix",
+            "type": "array"
+          },
+          "method": {
+            "$ref": "#/components/schemas/DistanceMethod"
+          }
+        },
+        "required": [
+          "job_titles",
+          "matrix",
+          "components",
+          "method",
+          "analysis_version"
+        ],
+        "title": "JobDistanceData",
+        "type": "object"
+      },
+      "JobOptionItem": {
+        "properties": {
+          "job_title": {
+            "title": "Job Title",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "total_records": {
+            "minimum": 0.0,
+            "title": "Total Records",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "job_title",
+          "label",
+          "total_records"
+        ],
+        "title": "JobOptionItem",
+        "type": "object"
+      },
+      "JobOptionsData": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/JobOptionItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "minimum": 1.0,
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "minimum": 0.0,
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "page_size",
+          "total"
+        ],
+        "title": "JobOptionsData",
+        "type": "object"
+      },
+      "JobProfileData": {
+        "properties": {
+          "distributions": {
+            "$ref": "#/components/schemas/ProfileDistributions"
+          },
+          "job_title": {
+            "title": "Job Title",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "salary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SalarySummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "total_records": {
+            "minimum": 0.0,
+            "title": "Total Records",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "job_title",
+          "label",
+          "total_records",
+          "distributions"
+        ],
+        "title": "JobProfileData",
+        "type": "object"
+      },
+      "MetaBlock": {
+        "properties": {
+          "duplicate_policy": {
+            "const": "keep_all",
+            "default": "keep_all",
+            "title": "Duplicate Policy",
+            "type": "string"
+          },
+          "filters": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FilterSet"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "salary_basis": {
+            "const": "quoted_range_midpoint",
+            "default": "quoted_range_midpoint",
+            "title": "Salary Basis",
+            "type": "string"
+          },
+          "salary_unit": {
+            "const": "K",
+            "default": "K",
+            "title": "Salary Unit",
+            "type": "string"
+          },
+          "scope": {
+            "enum": [
+              "filtered",
+              "global"
+            ],
+            "title": "Scope",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scope",
+          "filters"
+        ],
+        "title": "MetaBlock",
+        "type": "object"
+      },
+      "MetaData": {
+        "properties": {
+          "analysis_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "算法结果版本；未加载时为 null",
+            "title": "Analysis Version"
+          },
+          "capabilities": {
+            "$ref": "#/components/schemas/Capabilities"
+          },
+          "distance_candidates": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodeOption"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "可参与差异度计算的职位；未加载时为 null",
+            "title": "Distance Candidates"
+          },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/FieldDoc"
+            },
+            "title": "Fields",
+            "type": "array"
+          },
+          "filter_options": {
+            "$ref": "#/components/schemas/FilterOptions"
+          },
+          "sample_threshold": {
+            "default": 30,
+            "description": "有效薪资低于该值的对象不进主排名，仅作展示提示",
+            "title": "Sample Threshold",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "fields",
+          "filter_options",
+          "capabilities"
+        ],
+        "title": "MetaData",
+        "type": "object"
+      },
+      "OverviewData": {
+        "properties": {
+          "company_count": {
+            "minimum": 0.0,
+            "title": "Company Count",
+            "type": "integer"
+          },
+          "job_count": {
+            "minimum": 0.0,
+            "title": "Job Count",
+            "type": "integer"
+          },
+          "salary_median": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "有效报价中点中位数；无有效样本时为 null",
+            "title": "Salary Median"
+          },
+          "salary_valid_count": {
+            "minimum": 0.0,
+            "title": "Salary Valid Count",
+            "type": "integer"
+          },
+          "total_records": {
+            "minimum": 0.0,
+            "title": "Total Records",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total_records",
+          "company_count",
+          "job_count",
+          "salary_valid_count"
+        ],
+        "title": "OverviewData",
+        "type": "object"
+      },
+      "ProfileDistributions": {
+        "description": "固定四个维度；分母均为 total_records，未知类别计入分母。",
+        "properties": {
+          "city": {
+            "$ref": "#/components/schemas/Distribution"
+          },
+          "company_type": {
+            "$ref": "#/components/schemas/Distribution"
+          },
+          "education": {
+            "$ref": "#/components/schemas/Distribution"
+          },
+          "experience": {
+            "$ref": "#/components/schemas/Distribution"
+          }
+        },
+        "required": [
+          "city",
+          "company_type",
+          "education",
+          "experience"
+        ],
+        "title": "ProfileDistributions",
+        "type": "object"
+      },
+      "Record": {
+        "properties": {
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "company_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company Type"
+          },
+          "education": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Education"
+          },
+          "experience": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Experience"
+          },
+          "is_extra_duplicate": {
+            "title": "Is Extra Duplicate",
+            "type": "boolean"
+          },
+          "job_title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Job Title"
+          },
+          "pay_months": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pay Months"
+          },
+          "record_id": {
+            "title": "Record Id",
+            "type": "string"
+          },
+          "salary_lower": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salary Lower"
+          },
+          "salary_mid": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "仅 valid_range 有值",
+            "title": "Salary Mid"
+          },
+          "salary_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "原始文本，不被派生字段覆盖",
+            "title": "Salary Raw"
+          },
+          "salary_status": {
+            "$ref": "#/components/schemas/SalaryStatus"
+          },
+          "salary_unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salary Unit"
+          },
+          "salary_upper": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salary Upper"
+          },
+          "source_row": {
+            "description": "Excel 1-based 行号，首条数据为 2",
+            "minimum": 2.0,
+            "title": "Source Row",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "record_id",
+          "source_row",
+          "salary_status",
+          "is_extra_duplicate"
+        ],
+        "title": "Record",
+        "type": "object"
+      },
+      "RecordsData": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Record"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "minimum": 1.0,
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "description": "过滤后全部记录数，不是当前页条数",
+            "minimum": 0.0,
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "page_size",
+          "total"
+        ],
+        "title": "RecordsData",
+        "type": "object"
+      },
+      "RegionStats": {
+        "properties": {
+          "city": {
+            "title": "City",
+            "type": "string"
+          },
+          "company_count": {
+            "minimum": 0.0,
+            "title": "Company Count",
+            "type": "integer"
+          },
+          "salary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SalaryQuantiles"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "五数概括；无有效薪资时整体为 null"
+          },
+          "salary_valid_count": {
+            "minimum": 0.0,
+            "title": "Salary Valid Count",
+            "type": "integer"
+          },
+          "small_sample": {
+            "description": "salary_valid_count < 30",
+            "title": "Small Sample",
+            "type": "boolean"
+          },
+          "total_records": {
+            "description": "发布记录数，分母不因薪资无效而减少",
+            "minimum": 0.0,
+            "title": "Total Records",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "city",
+          "total_records",
+          "company_count",
+          "salary_valid_count",
+          "small_sample"
+        ],
+        "title": "RegionStats",
+        "type": "object"
+      },
+      "RegionsData": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RegionStats"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "RegionsData",
+        "type": "object"
+      },
+      "SalaryQuantiles": {
+        "description": "五数概括，不是 1.5IQR 异常值箱线图。",
+        "properties": {
+          "max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max"
+          },
+          "median": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Median"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min"
+          },
+          "q1": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Q1"
+          },
+          "q3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Q3"
+          }
+        },
+        "title": "SalaryQuantiles",
+        "type": "object"
+      },
+      "SalaryStatus": {
+        "enum": [
+          "valid_range",
+          "missing",
+          "unparsed",
+          "invalid_range",
+          "unsupported_unit",
+          "one_sided"
+        ],
+        "title": "SalaryStatus",
+        "type": "string"
+      },
+      "SalarySummary": {
+        "properties": {
+          "max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max"
+          },
+          "median": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Median"
+          },
+          "min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min"
+          },
+          "q1": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Q1"
+          },
+          "q3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Q3"
+          },
+          "valid_count": {
+            "minimum": 0.0,
+            "title": "Valid Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "valid_count"
+        ],
+        "title": "SalarySummary",
+        "type": "object"
+      },
+      "ShareItem": {
+        "properties": {
+          "count": {
+            "minimum": 0.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "share": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Share",
+            "type": "number"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "原代码；未知类别为 null",
+            "title": "Value"
+          }
+        },
+        "required": [
+          "value",
+          "count",
+          "share"
+        ],
+        "title": "ShareItem",
+        "type": "object"
+      },
+      "SimilarRegionItem": {
+        "properties": {
+          "city": {
+            "title": "City",
+            "type": "string"
+          },
+          "similarity": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Similarity",
+            "type": "number"
+          },
+          "total_records": {
+            "minimum": 0.0,
+            "title": "Total Records",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "city",
+          "similarity",
+          "total_records"
+        ],
+        "title": "SimilarRegionItem",
+        "type": "object"
+      },
+      "SimilarRegionsData": {
+        "properties": {
+          "analysis_version": {
+            "title": "Analysis Version",
+            "type": "string"
+          },
+          "city": {
+            "title": "City",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SimilarRegionItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "method": {
+            "description": "固定说明：1-TV，基于全局行业发布结构，不含薪资",
+            "title": "Method",
+            "type": "string"
+          }
+        },
+        "required": [
+          "city",
+          "items",
+          "method",
+          "analysis_version"
+        ],
+        "title": "SimilarRegionsData",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "基于 ChinaVis 2024 虚拟招聘数据。地区与职位以代码展示，不提供真实名称、地理坐标、时间序列与技能字段。",
+    "title": "职位画像与城市就业机会可视分析系统 API",
+    "version": "1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "operationId": "get_health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthData"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "服务状态"
+      }
+    },
+    "/api/v1/jobs/distance": {
+      "get": {
+        "operationId": "get_job_distance_api_v1_jobs_distance_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "job_title",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Job Title",
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_JobDistanceData_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "职位差异度（全局基线）"
+      }
+    },
+    "/api/v1/jobs/profile": {
+      "get": {
+        "operationId": "get_job_profile_api_v1_jobs_profile_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "City",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "job_title",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Job Title",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "company_type",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Company Type",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "education",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Education",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "experience",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Experience",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salary_min",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salary Min"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salary_max",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salary Max"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_JobProfileData_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "职位画像"
+      }
+    },
+    "/api/v1/meta": {
+      "get": {
+        "operationId": "get_meta_api_v1_meta_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_MetaData_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "元信息与筛选选项"
+      }
+    },
+    "/api/v1/options/jobs": {
+      "get": {
+        "operationId": "get_job_options_api_v1_options_jobs_get",
+        "parameters": [
+          {
+            "description": "对原代码做字面子串匹配，区分大小写",
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "对原代码做字面子串匹配，区分大小写",
+              "title": "Q"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_JobOptionsData_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "职位代码搜索与分页"
+      }
+    },
+    "/api/v1/overview": {
+      "get": {
+        "operationId": "get_overview_api_v1_overview_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "City",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "job_title",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Job Title",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "company_type",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Company Type",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "education",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Education",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "experience",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Experience",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salary_min",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salary Min"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salary_max",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salary Max"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_OverviewData_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "总量概览"
+      }
+    },
+    "/api/v1/records": {
+      "get": {
+        "operationId": "get_records_api_v1_records_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "City",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "job_title",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Job Title",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "company_type",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Company Type",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "education",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Education",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "experience",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Experience",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salary_min",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salary Min"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salary_max",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salary Max"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_RecordsData_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "来源明细（分页）"
+      }
+    },
+    "/api/v1/regions": {
+      "get": {
+        "operationId": "get_regions_api_v1_regions_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "City",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "job_title",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Job Title",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "company_type",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Company Type",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "education",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Education",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "experience",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Experience",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salary_min",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salary Min"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salary_max",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salary Max"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_RegionsData_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "地区比较"
+      }
+    },
+    "/api/v1/regions/similar": {
+      "get": {
+        "operationId": "get_similar_regions_api_v1_regions_similar_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "City",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 5,
+              "maximum": 10,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_SimilarRegionsData_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "相似地区（全局基线）"
+      }
+    }
+  }
+}
