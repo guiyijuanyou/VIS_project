@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0",
+  "data_version": "mock-v1",
+  "meta": {
+    "scope": "global",
+    "filters": null,
+    "duplicate_policy": "keep_all",
+    "salary_unit": "K",
+    "salary_basis": "quoted_range_midpoint"
+  },
+  "data": {
+    "fields": [
+      {
+        "name": "record_id",
+        "data_type": "string",
+        "nullable": false,
+        "unit": null,
+        "description": "本数据版本内唯一的记录标识"
+      },
+      {
+        "name": "source_row",
+        "data_type": "integer",
+        "nullable": false,
+        "unit": null,
+        "description": "Excel 1-based 行号，首条数据为 2"
+      },
+      {
+        "name": "job_title",
+        "data_type": "string",
+        "nullable": true,
+        "unit": null,
+        "description": "职位类别代码，不是招聘记录 ID"
+      },
+      {
+        "name": "city",
+        "data_type": "string",
+        "nullable": true,
+        "unit": null,
+        "description": "地区代码，不能解读为真实城市名"
+      },
+      {
+        "name": "experience",
+        "data_type": "string",
+        "nullable": true,
+        "unit": null,
+        "description": "经验类别代码，无序"
+      },
+      {
+        "name": "education",
+        "data_type": "string",
+        "nullable": true,
+        "unit": null,
+        "description": "学历类别代码，无序"
+      },
+      {
+        "name": "company",
+        "data_type": "string",
+        "nullable": true,
+        "unit": null,
+        "description": "企业代码，无真实企业名"
+      },
+      {
+        "name": "company_type",
+        "data_type": "string",
+        "nullable": true,
+        "unit": null,
+        "description": "行业类别代码，不是企业规模或所有制"
+      },
+      {
+        "name": "salary_raw",
+        "data_type": "string",
+        "nullable": true,
+        "unit": null,
+        "description": "原始薪资文本，不被派生字段覆盖"
+      },
+      {
+        "name": "salary_lower",
+        "data_type": "number",
+        "nullable": true,
+        "unit": "K",
+        "description": "报价下界"
+      },
+      {
+        "name": "salary_upper",
+        "data_type": "number",
+        "nullable": true,
+        "unit": "K",
+        "description": "报价上界"
+      },
+      {
+        "name": "salary_mid",
+        "data_type": "number",
+        "nullable": true,
+        "unit": "K",
+        "description": "报价中点，仅 valid_range 有值"
+      },
+      {
+        "name": "salary_unit",
+        "data_type": "string",
+        "nullable": true,
+        "unit": null,
+        "description": "K 或 other；主统计只用 K"
+      },
+      {
+        "name": "pay_months",
+        "data_type": "integer",
+        "nullable": true,
+        "unit": "月",
+        "description": "文本明确给出的几薪，未注明为 null"
+      },
+      {
+        "name": "salary_status",
+        "data_type": "string",
+        "nullable": false,
+        "unit": null,
+        "description": "薪资解析状态枚举"
+      },
+      {
+        "name": "is_extra_duplicate",
+        "data_type": "boolean",
+        "nullable": false,
+        "unit": null,
+        "description": "七原始字段完全相同的非首次记录"
+      }
+    ],
+    "filter_options": {
+      "city": [
+        {
+          "value": "A123",
+          "label": "A123"
+        },
+        {
+          "value": "B456",
+          "label": "B456"
+        },
+        {
+          "value": "C789",
+          "label": "C789"
+        },
+        {
+          "value": "F047",
+          "label": "F047"
+        },
+        {
+          "value": "P949",
+          "label": "P949"
+        },
+        {
+          "value": "R005",
+          "label": "R005"
+        }
+      ],
+      "company_type": [
+        {
+          "value": "I01",
+          "label": "I01"
+        },
+        {
+          "value": "I02",
+          "label": "I02"
+        },
+        {
+          "value": "I03",
+          "label": "I03"
+        },
+        {
+          "value": "I04",
+          "label": "I04"
+        },
+        {
+          "value": "I05",
+          "label": "I05"
+        }
+      ],
+      "education": [
+        {
+          "value": "ED",
+          "label": "ED"
+        },
+        {
+          "value": "GI",
+          "label": "GI"
+        },
+        {
+          "value": "MD",
+          "label": "MD"
+        }
+      ],
+      "experience": [
+        {
+          "value": "EX1",
+          "label": "EX1"
+        },
+        {
+          "value": "EX2",
+          "label": "EX2"
+        },
+        {
+          "value": "EX3",
+          "label": "EX3"
+        }
+      ]
+    },
+    "capabilities": {
+      "real_names": false,
+      "geo": false,
+      "time_series": false,
+      "skills": false
+    },
+    "analysis_version": "mock-v1",
+    "distance_candidates": [
+      {
+        "value": "J001",
+        "label": "J001"
+      },
+      {
+        "value": "J002",
+        "label": "J002"
+      },
+      {
+        "value": "J003",
+        "label": "J003"
+      },
+      {
+        "value": "J004",
+        "label": "J004"
+      },
+      {
+        "value": "J005",
+        "label": "J005"
+      }
+    ],
+    "sample_threshold": 30
+  }
+}

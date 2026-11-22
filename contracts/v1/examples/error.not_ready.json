@@ -1,0 +1,8 @@
+{
+  "error": {
+    "code": "DATA_NOT_READY",
+    "message": "清洗数据尚未加载，请先运行导入脚本",
+    "details": [],
+    "request_id": "req-9b2d4e10"
+  }
+}

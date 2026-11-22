@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": "INVALID_QUERY",
+    "message": "salary_min 不能大于 salary_max",
+    "details": [
+      {
+        "field": "salary_min",
+        "reason": "out_of_range"
+      }
+    ],
+    "request_id": "req-6a1f3c22"
+  }
+}

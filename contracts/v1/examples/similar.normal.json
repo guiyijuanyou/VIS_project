@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "data_version": "mock-v1",
+  "meta": {
+    "scope": "global",
+    "filters": null,
+    "duplicate_policy": "keep_all",
+    "salary_unit": "K",
+    "salary_basis": "quoted_range_midpoint"
+  },
+  "data": {
+    "city": "F047",
+    "items": [
+      {
+        "city": "P949",
+        "similarity": 0.86,
+        "total_records": 250
+      },
+      {
+        "city": "A123",
+        "similarity": 0.79,
+        "total_records": 100
+      },
+      {
+        "city": "R005",
+        "similarity": 0.74,
+        "total_records": 180
+      },
+      {
+        "city": "B456",
+        "similarity": 0.68,
+        "total_records": 70
+      },
+      {
+        "city": "C789",
+        "similarity": 0.61,
+        "total_records": 15
+      }
+    ],
+    "method": "1 - TV(P‖Q)；基于全局行业发布结构，不含薪资项，不随页面筛选重算",
+    "analysis_version": "mock-v1"
+  }
+}

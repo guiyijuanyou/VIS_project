@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "data_version": "mock-v1",
+  "meta": {
+    "scope": "global",
+    "filters": null,
+    "duplicate_policy": "keep_all",
+    "salary_unit": "K",
+    "salary_basis": "quoted_range_midpoint"
+  },
+  "data": {
+    "job_titles": [
+      "J001",
+      "J002",
+      "J003"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.42,
+        0.31
+      ],
+      [
+        0.42,
+        0.0,
+        0.55
+      ],
+      [
+        0.31,
+        0.55,
+        0.0
+      ]
+    ],
+    "components": [
+      {
+        "left": "J001",
+        "right": "J002",
+        "industry": 0.5,
+        "region": 0.35,
+        "education": 0.45,
+        "experience": 0.4,
+        "salary": 0.4,
+        "total": 0.42
+      },
+      {
+        "left": "J001",
+        "right": "J003",
+        "industry": 0.4,
+        "region": 0.25,
+        "education": 0.3,
+        "experience": 0.3,
+        "salary": 0.3,
+        "total": 0.31
+      },
+      {
+        "left": "J002",
+        "right": "J003",
+        "industry": 0.6,
+        "region": 0.5,
+        "education": 0.55,
+        "experience": 0.55,
+        "salary": 0.55,
+        "total": 0.55
+      }
+    ],
+    "method": {
+      "name": "weighted_tv_distance",
+      "version": "1.0",
+      "dimensions": [
+        "industry",
+        "region",
+        "education",
+        "experience",
+        "salary"
+      ],
+      "weights": {
+        "industry": 0.2,
+        "region": 0.2,
+        "education": 0.2,
+        "experience": 0.2,
+        "salary": 0.2
+      },
+      "salary_reference": {
+        "lower": 2.0,
+        "upper": 28.0
+      },
+      "reference_scope": "global",
+      "min_salary_samples": 30
+    },
+    "analysis_version": "mock-v1"
+  }
+}

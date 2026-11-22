@@ -1,0 +1,292 @@
+{
+  "schema_version": "1.0",
+  "contract": "docs/api/contract.md",
+  "owner": "周士博（B）",
+  "expected_numbers_provider": "廖杰（A）",
+  "operation_steps_provider": "陶嘉义（C）",
+  "note": "真实预期数由廖杰在 H2 提供后填入 expected_numbers；状态字段 pending-H2 表示尚未填。计数必须精确相等，浮点绝对误差 ≤ 1e-8。",
+  "data_version": null,
+  "updated_at": "2026-11-22",
+  "cases": [
+    {
+      "id": "AC-01",
+      "title": "全量 overview 与清洗输出一致",
+      "ref": "协作契约 8.1",
+      "kind": "api",
+      "requests": [
+        { "method": "GET", "path": "/api/v1/overview", "query": {} }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "data.total_records 等于 manifest.output_count",
+        "data.salary_valid_count ≤ data.total_records",
+        "data.company_count 不等于各地区 company_count 之和时属正常（跨地区去重）",
+        "data.salary_median 为有限数或 null，不得为 0 占位"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "pending-H2",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-02",
+      "title": "单地区 + 单学历：后端与廖杰独立统计相等",
+      "ref": "协作契约 8.2",
+      "kind": "api",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/overview",
+          "query": { "city": ["F047"], "education": ["GI"] }
+        }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "meta.filters.city 为 [\"F047\"]，education 为 [\"GI\"]",
+        "四项计数与廖杰 reference_checks.json 完全相同",
+        "salary_median 与 pandas quantile(interpolation='linear') 误差 ≤ 1e-8"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "pending-H2",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-03",
+      "title": "两地区 OR + 行业 AND",
+      "ref": "协作契约 8.3",
+      "kind": "api",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/regions",
+          "query": { "city": ["F047", "P949"], "company_type": ["I01"] }
+        }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "返回的 items 只包含 F047 与 P949 两行",
+        "两行 total_records 之和等于同条件 overview.total_records",
+        "排序为 total_records 降序，同数按 city 升序"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "pending-H2",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-04",
+      "title": "不存在的代码：合法零结果而非 404",
+      "ref": "协作契约 8.4",
+      "kind": "api",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/overview",
+          "query": { "city": ["NO_SUCH_CITY"] }
+        }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "data.total_records 为 0",
+        "data.salary_valid_count 为 0",
+        "data.salary_median 为 null，不得为 0",
+        "meta.filters.city 原样回填 [\"NO_SUCH_CITY\"]"
+      ],
+      "expected_numbers": {
+        "total_records": 0,
+        "company_count": 0,
+        "job_count": 0,
+        "salary_valid_count": 0,
+        "salary_median": null
+      },
+      "expected_numbers_status": "known",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-05",
+      "title": "salary_min > salary_max：422 与统一错误格式",
+      "ref": "协作契约 8.5",
+      "kind": "api",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/overview",
+          "query": { "salary_min": "20", "salary_max": "10" }
+        }
+      ],
+      "expect": { "status": 422 },
+      "assertions": [
+        "error.code 为 INVALID_QUERY",
+        "error.details 含 {field:\"salary_min\", reason:\"out_of_range\"}",
+        "存在 error.request_id 且与响应头无关、仅用于排查",
+        "响应里没有堆栈、文件路径或 SQL"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "known",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-06",
+      "title": "仅无有效薪资集合：发布量非零、薪资 null",
+      "ref": "协作契约 8.6",
+      "kind": "api",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/regions",
+          "query": { "city": ["R005"] }
+        }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "data.items[0].total_records > 0（发布量分母不因薪资无效而减少）",
+        "data.items[0].salary_valid_count 为 0",
+        "data.items[0].salary 为 null",
+        "data.items[0].small_sample 为 true"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "pending-H2",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-07",
+      "title": "分页末页与越界页：不重复、不丢失、total 一致",
+      "ref": "协作契约 8.7",
+      "kind": "api",
+      "requests": [
+        { "method": "GET", "path": "/api/v1/records", "query": { "page": "1", "page_size": "100" } },
+        { "method": "GET", "path": "/api/v1/records", "query": { "page": "2", "page_size": "100" } },
+        { "method": "GET", "path": "/api/v1/records", "query": { "page": "99999", "page_size": "20" } }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "三个请求的 data.total 完全相同",
+        "第 1 页与第 2 页的 record_id 无交集",
+        "越界页 items 为空数组，total 不变，不返回 404",
+        "items 按 source_row 严格升序"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "pending-H2",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-08",
+      "title": "大小写不同类别不合并",
+      "ref": "协作契约 8.8",
+      "kind": "api",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/overview",
+          "query": { "city": ["f047"] }
+        }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "data.total_records 为 0（小写不等于 F047）",
+        "meta.filters.city 仍为 [\"f047\"]，后端不做大小写归一",
+        "同一请求把 city 改成 F047 时 total_records > 0"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "known",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-09",
+      "title": "两职位距离：矩阵对称、自身 0、与分量一致",
+      "ref": "协作契约 8.9",
+      "kind": "api",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/jobs/distance",
+          "query": { "job_title": ["J001", "J002"] }
+        }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "data.matrix[0][1] == data.matrix[1][0]",
+        "data.matrix[0][0] == 0 且 data.matrix[1][1] == 0",
+        "data.components 只有 1 项（i<j）",
+        "component.total 等于五个维度分量的等权平均，误差 ≤ 1e-8",
+        "meta.scope 为 global 且 meta.filters 为 null"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "pending-H4",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-10",
+      "title": "相似地区：不含自己、顺序与算法一致",
+      "ref": "协作契约 8.10",
+      "kind": "api",
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/v1/regions/similar",
+          "query": { "city": ["F047"], "limit": "5" }
+        }
+      ],
+      "expect": { "status": 200 },
+      "assertions": [
+        "items 中不含 F047",
+        "items 最多 5 条",
+        "similarity 降序，同分按 city 升序",
+        "method 文案说明基于全局行业结构且不含薪资项"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "pending-H4",
+      "verified_by": "周士博",
+      "verified_at": null
+    },
+    {
+      "id": "AC-11",
+      "title": "全局基线面板不假装随筛选重算",
+      "ref": "协作契约 8.11",
+      "kind": "frontend",
+      "requests": [],
+      "steps": [
+        "打开职位差异页，确认面板标注“全局基线”",
+        "在侧边筛选里改变地区或学历",
+        "观察差异矩阵数值与 method 文案"
+      ],
+      "assertions": [
+        "矩阵数值不随筛选变化",
+        "面板仍显示“全局基线”提示",
+        "普通统计卡片（总量、计数）随筛选变化，两者视觉上可区分"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "known",
+      "verified_by": "陶嘉义",
+      "verified_at": null
+    },
+    {
+      "id": "AC-12",
+      "title": "连续快速筛选只展示最后一次请求结果",
+      "ref": "协作契约 8.12",
+      "kind": "frontend",
+      "requests": [],
+      "steps": [
+        "连续快速切换三个地区筛选",
+        "打开浏览器网络面板确认请求被取消",
+        "核对最终图表与最后一次条件一致"
+      ],
+      "assertions": [
+        "旧响应不会覆盖新条件",
+        "图表、计数、明细三处条件一致",
+        "网络面板中可见 AbortController 取消记录"
+      ],
+      "expected_numbers": null,
+      "expected_numbers_status": "known",
+      "verified_by": "陶嘉义",
+      "verified_at": null
+    }
+  ]
+}

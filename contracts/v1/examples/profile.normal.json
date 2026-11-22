@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "data_version": "mock-v1",
+  "meta": {
+    "scope": "filtered",
+    "filters": {
+      "city": [],
+      "job_title": [
+        "J001"
+      ],
+      "company_type": [],
+      "education": [],
+      "experience": [],
+      "salary_min": null,
+      "salary_max": null
+    },
+    "duplicate_policy": "keep_all",
+    "salary_unit": "K",
+    "salary_basis": "quoted_range_midpoint"
+  },
+  "data": {
+    "job_title": "J001",
+    "label": "J001",
+    "total_records": 420,
+    "salary": {
+      "valid_count": 380,
+      "q1": 5.0,
+      "median": 7.5,
+      "q3": 10.5,
+      "min": 2.0,
+      "max": 30.0
+    },
+    "distributions": {
+      "city": {
+        "denominator": 420,
+        "items": [
+          {
+            "value": "F047",
+            "count": 300,
+            "share": 0.714286
+          },
+          {
+            "value": "P949",
+            "count": 70,
+            "share": 0.166667
+          },
+          {
+            "value": "R005",
+            "count": 30,
+            "share": 0.071429
+          },
+          {
+            "value": "A123",
+            "count": 15,
+            "share": 0.035714
+          },
+          {
+            "value": "B456",
+            "count": 5,
+            "share": 0.011905
+          }
+        ]
+      },
+      "company_type": {
+        "denominator": 420,
+        "items": [
+          {
+            "value": "I01",
+            "count": 168,
+            "share": 0.4
+          },
+          {
+            "value": "I02",
+            "count": 105,
+            "share": 0.25
+          },
+          {
+            "value": "I03",
+            "count": 84,
+            "share": 0.2
+          },
+          {
+            "value": "I04",
+            "count": 42,
+            "share": 0.1
+          },
+          {
+            "value": "I05",
+            "count": 21,
+            "share": 0.05
+          }
+        ]
+      },
+      "education": {
+        "denominator": 420,
+        "items": [
+          {
+            "value": "GI",
+            "count": 210,
+            "share": 0.5
+          },
+          {
+            "value": "ED",
+            "count": 126,
+            "share": 0.3
+          },
+          {
+            "value": "MD",
+            "count": 63,
+            "share": 0.15
+          },
+          {
+            "value": null,
+            "count": 21,
+            "share": 0.05
+          }
+        ]
+      },
+      "experience": {
+        "denominator": 420,
+        "items": [
+          {
+            "value": "EX1",
+            "count": 252,
+            "share": 0.6
+          },
+          {
+            "value": "EX2",
+            "count": 126,
+            "share": 0.3
+          },
+          {
+            "value": "EX3",
+            "count": 42,
+            "share": 0.1
+          }
+        ]
+      }
+    }
+  }
+}

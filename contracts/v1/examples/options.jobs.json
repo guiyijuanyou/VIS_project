@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "data_version": "mock-v1",
+  "meta": {
+    "scope": "global",
+    "filters": null,
+    "duplicate_policy": "keep_all",
+    "salary_unit": "K",
+    "salary_basis": "quoted_range_midpoint"
+  },
+  "data": {
+    "items": [
+      {
+        "job_title": "J001",
+        "label": "J001",
+        "total_records": 420
+      },
+      {
+        "job_title": "J002",
+        "label": "J002",
+        "total_records": 300
+      },
+      {
+        "job_title": "J003",
+        "label": "J003",
+        "total_records": 180
+      },
+      {
+        "job_title": "J004",
+        "label": "J004",
+        "total_records": 80
+      },
+      {
+        "job_title": "J005",
+        "label": "J005",
+        "total_records": 35
+      }
+    ],
+    "page": 1,
+    "page_size": 20,
+    "total": 5
+  }
+}

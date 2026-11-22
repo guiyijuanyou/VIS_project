@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "data_version": "mock-v1",
+  "meta": {
+    "scope": "filtered",
+    "filters": {
+      "city": [],
+      "job_title": [
+        "J005"
+      ],
+      "company_type": [],
+      "education": [
+        "MD"
+      ],
+      "experience": [
+        "EX3"
+      ],
+      "salary_min": null,
+      "salary_max": null
+    },
+    "duplicate_policy": "keep_all",
+    "salary_unit": "K",
+    "salary_basis": "quoted_range_midpoint"
+  },
+  "data": {
+    "job_title": "J005",
+    "label": "J005",
+    "total_records": 0,
+    "salary": null,
+    "distributions": {
+      "city": {
+        "denominator": 0,
+        "items": []
+      },
+      "company_type": {
+        "denominator": 0,
+        "items": []
+      },
+      "education": {
+        "denominator": 0,
+        "items": []
+      },
+      "experience": {
+        "denominator": 0,
+        "items": []
+      }
+    }
+  }
+}
