@@ -16,3 +16,6 @@ data/processed/*.csv
 
 # 允许保留的占位标记
 !**/.gitkeep
+
+# 本地代理配置与工作记忆，不随项目分发
+.workbuddy/
