@@ -1,9 +1,21 @@
-# 占位文件：由人员二（B02）锁定后端 Python 依赖，人员一（A）提依赖需求。
-# 当前仅列出骨架阶段已知的最小集合，版本统一由 B 填写后再锁定。
-# TODO(B02): 取消注释并锁定版本
-# fastapi==
-# uvicorn[standard]==
-# pandas==
-# openpyxl==
-# python-docx==
-# pyarrow==
+# 依赖清单。负责人：周士博（B）；廖杰（A）提依赖需求。
+# 安装：.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+# Python 版本：3.12（Windows 已实测 3.12.13）
+
+# Web 服务
+fastapi==0.165.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.4
+
+# 查询引擎（B04 导入与 B05 聚合；直接读 parquet，分位数与 pandas 线性插值对齐）
+duckdb==2.0.1
+
+# 数据读取与复核（A 的清洗脚本与 B 的导入器共用）
+pandas==3.1.1
+pyarrow==26.0.1
+openpyxl==3.1.5
+python-docx==1.2.0
+
+# 测试（非运行必需）
+pytest==9.2.0
+httpx==0.28.1
